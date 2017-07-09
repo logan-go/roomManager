@@ -27,6 +27,7 @@ func sendMessageToChannel(roomId string, nm nodeMessage) error {
 		roomObj.RoomID = roomId
 		roomObj.Rows = make([]*RowList, 0, 1024)
 
+		//创建新的协程来监控房间
 		go daemonReciver(messageChannel[roomId], roomObj)
 	}
 	return nil
