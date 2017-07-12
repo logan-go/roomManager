@@ -1,6 +1,8 @@
 package roomManager
 
-import "sync"
+import (
+	"sync"
+)
 
 var messageChannel map[string]chan nodeMessage
 var messageChannelLock sync.RWMutex
@@ -25,7 +27,7 @@ func sendMessageToChannel(roomId string, nm nodeMessage) error {
 		//创建房间实例
 		roomObj := &RoomInfo{}
 		roomObj.RoomID = roomId
-		roomObj.Rows = make([]*RowList, 0, 1024)
+		roomObj.Rows = make([]*RowList, 0, 4)
 
 		//创建新的协程来监控房间
 		go daemonReciver(messageChannel[roomId], roomObj)

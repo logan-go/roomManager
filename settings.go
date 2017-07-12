@@ -8,3 +8,7 @@ var (
 	TRACE_FLAG        = true                                             //是否打开trace开关
 	TRACE_LOG_PATH    = os.ExpandEnv("$GOPATH/trace_logs/trace_log.out") //trace日志地址
 )
+
+const (
+	REQUEST_URI = "websocket"
+)
