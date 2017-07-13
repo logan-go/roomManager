@@ -29,14 +29,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	node := ReciveNode{}
+	node := &ReciveNode{}
 	node.IsAlive = true
 	node.Conn = conn
 	node.Add()
 	processMessage(node)
 }
 
-func processMessage(node ReciveNode) {
+func processMessage(node *ReciveNode) {
 	for {
 		mType, reader, err := node.Conn.NextReader()
 		if err != nil {
@@ -68,6 +68,6 @@ func processMessage(node ReciveNode) {
 			msg = append(msg, tmp...)
 		}
 		//交给注册的方法处理
-		processFunc(msg)
+		processFunc(msg, node)
 	}
 }

@@ -3,7 +3,9 @@
 **/
 package roomManager
 
-import "github.com/gorilla/websocket"
+import (
+	"github.com/gorilla/websocket"
+)
 
 //用于接收用户消息的节点
 type ReciveNode struct {

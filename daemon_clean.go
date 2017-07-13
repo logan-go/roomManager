@@ -16,3 +16,13 @@ func cleanRoom(roomInfo *RoomInfo) {
 	}
 	roomInfo.LastChangeTime = time.Now()
 }
+
+//定时对房间进行清理
+func timerForClean(c chan nodeMessage) {
+	for {
+		nm := nodeMessage{}
+		nm.messageType = NODE_MESSAGE_TYPE_CLEAN_ROOM
+		c <- nm
+		time.Sleep(CLEAN_TIMER)
+	}
+}

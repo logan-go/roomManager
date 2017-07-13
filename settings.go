@@ -1,6 +1,9 @@
 package roomManager
 
-import "os"
+import (
+	"os"
+	"time"
+)
 
 var (
 	DETAILED_LOG_FLAG = true                                             //详细日志开关
@@ -11,4 +14,5 @@ var (
 
 const (
 	REQUEST_URI = "websocket"
+	CLEAN_TIMER = 5 * time.Minute //房间清理定时器
 )
