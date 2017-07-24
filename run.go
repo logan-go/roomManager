@@ -20,7 +20,7 @@ func Run() {
 		return
 	}
 	http.HandleFunc("/"+REQUEST_URI, handler)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(LISTEN_PORT, nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
