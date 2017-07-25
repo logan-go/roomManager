@@ -25,6 +25,9 @@ func (this *ReciveNode) Add() {
 		body:        this,
 	}
 	sendMessageToChannel(this.RoomID, nm)
+	if DETAILED_LOG_FLAG {
+		LinkedCounter++
+	}
 }
 
 func (this *ReciveNode) ChangeRoom(roomId string) {
@@ -48,11 +51,17 @@ func (this *ReciveNode) SendMessage(message interface{}) {
 		return
 	}
 	sendMessageToChannel(this.RoomID, nm)
+	if DETAILED_LOG_FLAG {
+		SendCounter++
+	}
 }
 
 func (this *ReciveNode) Close() {
 	this.IsAlive = false
 	this.Conn.Close()
+	if DETAILED_LOG_FLAG {
+		ClosedCounter++
+	}
 }
 
 func SendMessageFromOuter(roomID string, message interface{}) {
@@ -64,4 +73,7 @@ func SendMessageFromOuter(roomID string, message interface{}) {
 		body:        message,
 	}
 	sendMessageToChannel(roomID, nm)
+	if DETAILED_LOG_FLAG {
+		SendCounter++
+	}
 }

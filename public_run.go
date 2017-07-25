@@ -19,6 +19,7 @@ func Run() error {
 		fmt.Println("信息处理方法未注册......")
 		return nil
 	}
+	ProcessSignals()
 	http.HandleFunc("/"+REQUEST_URI, handler)
 	return http.ListenAndServe(LISTEN_PORT, nil)
 }
