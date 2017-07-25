@@ -7,8 +7,18 @@ func cleanRoom(roomInfo *RoomInfo) {
 	for _, v := range roomInfo.Rows {
 		for n := v.FrontNode; n != nil; n = n.NextNode {
 			if n.RoomID != roomInfo.RoomID || n.IsAlive == false {
-				n.PrevNode.NextNode = n.NextNode
-				n.NextNode.PrevNode = n.PrevNode
+				//如果是第一个节点
+				if n == v.FrontNode {
+					v.FrontNode = n.NextNode
+					if v.FrontNode != nil {//如果只有一个节点的话
+						v.FrontNode.PrevNode = nil
+					}
+				} else if n.NextNode == nil {//如果是最后一个节点
+					n.PrevNode.NextNode = nil
+				} else {
+					n.PrevNode.NextNode = n.NextNode
+					n.NextNode.PrevNode = n.PrevNode
+				}
 				roomInfo.Length--
 				n.CurrentList.Length--
 			}

@@ -28,6 +28,9 @@ func (this *ReciveNode) Add() {
 }
 
 func (this *ReciveNode) ChangeRoom(roomId string) {
+	if this.RoomID == roomId {
+		return
+	}
 	this.RoomID = roomId
 	nm := nodeMessage{
 		messageType: NODE_MESSAGE_TYPE_CHANGE_ROOM,

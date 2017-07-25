@@ -14,13 +14,13 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
-func Run() {
+func Run() error {
 	if processFunc == nil {
 		fmt.Println("信息处理方法未注册......")
-		return
+		return nil
 	}
 	http.HandleFunc("/"+REQUEST_URI, handler)
-	http.ListenAndServe(LISTEN_PORT, nil)
+	return http.ListenAndServe(LISTEN_PORT, nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -39,6 +39,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func processMessage(node *ReciveNode) {
 	for {
 		mType, reader, err := node.Conn.NextReader()
+		if DETAILED_LOG_FLAG {
+			fmt.Println(">>>>>>>>>>>>>>>>>>>获取到信息>>>>>>>>>>>>>>>>>>")
+			fmt.Println("[TYPE]:", mType)
+			fmt.Println("[READER]:", reader)
+			fmt.Println("[ERR]:", err)
+			fmt.Println("<<<<<<<<<<<<<<<<<<<获取信息结束<<<<<<<<<<<<<<<<<<")
+		}
+
+		if mType == -1 {
+			node.Close()
+			return
+		}
+
 		if err != nil {
 			continue
 		}

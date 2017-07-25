@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	DETAILED_LOG_FLAG = true                                             //详细日志开关
-	NORMAL_LOG_FLAG   = true                                             //常规日志开关
-	TRACE_FLAG        = true                                             //是否打开trace开关
+	DETAILED_LOG_FLAG = false                                            //详细日志开关
+	NORMAL_LOG_FLAG   = false                                            //常规日志开关
+	TRACE_FLAG        = false                                            //是否打开trace开关
 	TRACE_LOG_PATH    = os.ExpandEnv("$GOPATH/trace_logs/trace_log.out") //trace日志地址
 	LISTEN_PORT       = ":8080"                                          //监听端口
 	REQUEST_URI       = "websocket"                                      //请求URI
@@ -32,31 +32,31 @@ func SetCleanTimes(t int64) {
 }
 
 //打开Trace日志开关
-func OpenTraceFlag(){
+func OpenTraceFlag() {
 	TRACE_FLAG = true
 }
 
 //关闭Trace日志开关
-func CloseTraceFlag(){
+func CloseTraceFlag() {
 	TRACE_FLAG = false
 }
 
 //打开常规日志开关
-func OpenNormalFlag(){
+func OpenNormalFlag() {
 	NORMAL_LOG_FLAG = true
 }
 
 //关闭常规日志开关
-func CloseNormalFlag(){
+func CloseNormalFlag() {
 	NORMAL_LOG_FLAG = false
 }
 
 //打开详细日志开关
-func OpenDetailFlag(){
+func OpenDetailFlag() {
 	DETAILED_LOG_FLAG = true
 }
 
 //关闭详细日志开关
-func CloseDetailFlag(){
+func CloseDetailFlag() {
 	DETAILED_LOG_FLAG = false
 }
