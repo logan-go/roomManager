@@ -13,7 +13,7 @@ var (
 	TRACE_LOG_PATH    = os.ExpandEnv("$GOPATH/trace_logs/trace_log.out") //trace日志地址
 	LISTEN_PORT       = ":8080"                                          //监听端口
 	REQUEST_URI       = "websocket"                                      //请求URI
-	CLEAN_TIMER       = 5 * time.Minute                                  //房间清理定时器
+	CLEAN_TIMER       = 30 * time.Second                                 //房间清理定时器
 )
 
 //设定监听端口号
