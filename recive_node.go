@@ -5,6 +5,7 @@ package roomManager
 
 import (
 	"github.com/gorilla/websocket"
+	json "github.com/json-iterator/go"
 )
 
 //用于接收用户消息的节点
@@ -42,7 +43,8 @@ func (this *ReciveNode) ChangeRoom(roomId string) {
 	sendMessageToChannel(this.RoomID, nm)
 }
 
-func (this *ReciveNode) SendMessage(message interface{}) {
+//给当前节点所在房间发送消息
+func (this *ReciveNode) SendMessageToRoom(message interface{}) {
 	nm := nodeMessage{
 		messageType: NODE_MESSAGE_TYPE_SEND_MESSAGE,
 		body:        message,
@@ -54,6 +56,20 @@ func (this *ReciveNode) SendMessage(message interface{}) {
 	if DETAILED_LOG_FLAG {
 		SendCounter++
 	}
+}
+
+//给当前节点连接发送消息
+func (this *ReciveNode) SendMessage(message interface{}) {
+	w, err := this.Conn.NextWriter(websocket.TextMessage)
+	if err != nil {
+		return
+	}
+	defer w.Close()
+	msg, err := json.Marshal(message)
+	if err != nil {
+		return
+	}
+	w.Write(msg)
 }
 
 func (this *ReciveNode) Close() {
