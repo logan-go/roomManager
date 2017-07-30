@@ -75,7 +75,7 @@ func processMessage(node *ReciveNode) {
 		for {
 			tmp := make([]byte, 1024)
 			length, err := reader.Read(tmp)
-			if err == io.EOF {
+			if err == io.EOF || length < 1024 {
 				msg = append(msg, tmp[:length]...)
 				break
 			}
