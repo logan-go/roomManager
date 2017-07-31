@@ -40,13 +40,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func processMessage(node *ReciveNode) {
 	for {
 		mType, reader, err := node.Conn.NextReader()
-		if DETAILED_LOG_FLAG {
-			fmt.Println(">>>>>>>>>>>>>>>>>>>获取到信息>>>>>>>>>>>>>>>>>>")
-			fmt.Println("[TYPE]:", mType)
-			fmt.Println("[READER]:", reader)
-			fmt.Println("[ERR]:", err)
-			fmt.Println("<<<<<<<<<<<<<<<<<<<获取信息结束<<<<<<<<<<<<<<<<<<")
-		}
 
 		if mType == -1 {
 			node.Close()

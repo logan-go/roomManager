@@ -14,6 +14,7 @@ var (
 	LISTEN_PORT       = ":8080"                                          //监听端口
 	REQUEST_URI       = "websocket"                                      //请求URI
 	CLEAN_TIMER       = 30 * time.Second                                 //房间清理定时器
+	HALL_TIMEOUT      = 30 * time.Second                                 //大厅房间的连接超过多久之后会被断开
 )
 
 //设定监听端口号

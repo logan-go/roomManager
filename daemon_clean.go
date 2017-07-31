@@ -1,13 +1,11 @@
 package roomManager
 
 import (
-	"fmt"
 	"time"
 )
 
 //清理当前房间里面不属于自己房间的节点
 func cleanRoom(roomInfo *RoomInfo) {
-	startTime := time.Now()
 	count := uint64(0)
 	deadCount := uint64(0)
 	for k, v := range roomInfo.Rows {
@@ -39,9 +37,7 @@ func cleanRoom(roomInfo *RoomInfo) {
 		roomInfo.Rows[k].Length = rowCount
 	}
 	roomInfo.Length = count - deadCount
-	endTime := time.Now()
 	roomInfo.LastChangeTime = time.Now()
-	fmt.Println("清理房间：", roomInfo.RoomID, ";耗时：", endTime.UnixNano()-startTime.UnixNano(), "纳秒；共扫描节点：", count, "个；处理节点：", deadCount, "个							====>")
 }
 
 //定时对房间进行清理

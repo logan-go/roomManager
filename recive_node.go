@@ -4,6 +4,8 @@
 package roomManager
 
 import (
+	"time"
+
 	"github.com/gorilla/websocket"
 	json "github.com/json-iterator/go"
 )
@@ -15,6 +17,7 @@ type ReciveNode struct {
 	PrevNode    *ReciveNode
 	CurrentList *RowList
 	Conn        *websocket.Conn
+	UpdateTime  time.Time
 	IsAlive     bool
 }
 

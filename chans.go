@@ -32,6 +32,10 @@ func sendMessageToChannel(roomId string, nm nodeMessage) error {
 		//创建新的协程来监控房间
 		go daemonReciver(messageChannel[roomId], roomObj)
 		go timerForClean(messageChannel[roomId])
+		//如果是大厅的话，启动大厅清理协程
+		if roomId == "" {
+			go CleanHall(roomObj)
+		}
 	}
 	return nil
 }
