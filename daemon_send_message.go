@@ -2,6 +2,7 @@ package roomManager
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/gorilla/websocket"
 )
@@ -27,4 +28,5 @@ func sendMessage(roomInfo *RoomInfo, message interface{}) {
 			}
 		}
 	}
+	fmt.Println("[发送消息] - 房间", roomInfo.RoomID, "：遍历节点", counter, "个，发送节点", realCounter, "个")
 }
