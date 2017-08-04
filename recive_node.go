@@ -13,6 +13,7 @@ import (
 //用于接收用户消息的节点
 type ReciveNode struct {
 	RoomID      string
+	ClientID    int64
 	NextNode    *ReciveNode
 	PrevNode    *ReciveNode
 	CurrentList *RowList
