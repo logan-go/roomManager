@@ -6,6 +6,7 @@ import (
 
 //清理当前房间里面不属于自己房间的节点
 func cleanRoom(roomInfo *RoomInfo) {
+	return //临时停止清扫房间
 	count := uint64(0)
 	deadCount := uint64(0)
 	for k, v := range roomInfo.Rows {

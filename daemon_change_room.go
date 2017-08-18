@@ -9,7 +9,19 @@ import (
 //因为前面已经修改了RoomID，所以这里只需要把接受者节点的指针重新对接到新房间的节点上，就可以了
 func changeRoom(roomInfo *RoomInfo, node *ReciveNode) {
 	if roomInfo.RoomID == "000001" {
-		fmt.Println("开始添加: - ", node.ClientID)
+		fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>房间开始添加节点>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+		if len(roomInfo.Rows) > 0 {
+			fmt.Print("[列头节点地址]：")
+			fmt.Printf("%p\n", roomInfo.Rows[0].FrontNode)
+			fmt.Print("[列尾节点地址]：")
+			fmt.Printf("%p\n", roomInfo.Rows[0].BackNode)
+		} else {
+			fmt.Println("[列头节点地址]：nil")
+			fmt.Println("[列尾节点地址]：nil")
+		}
+		fmt.Print("[当前节点]：")
+		fmt.Printf("%+v\n", node)
+		fmt.Println("==========更换后=============")
 	}
 	if len(roomInfo.Rows) > 0 {
 		roomInfo.Rows[0].Lock.Lock()
@@ -37,35 +49,29 @@ func changeRoom(roomInfo *RoomInfo, node *ReciveNode) {
 		roomInfo.Length++
 	}
 	if roomInfo.RoomID == "000001" {
-		fmt.Println("添加完毕: - ", node.ClientID)
-	}
-	//展示一下当前房间的情况
-	if DETAILED_LOG_FLAG {
-		fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>房间信息>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-		fmt.Print("[要处理的节点地址为]：")
+		fmt.Print("[列头节点地址]：")
+		fmt.Printf("%p\n", roomInfo.Rows[0].FrontNode)
+		fmt.Print("[列尾节点地址]：")
+		fmt.Printf("%p\n", roomInfo.Rows[0].BackNode)
+		fmt.Print("[当前节点地址]：")
 		fmt.Printf("%p\n", node)
-		rId := "大厅"
-		if roomInfo.RoomID != "" {
-			rId = roomInfo.RoomID
+		fmt.Print("[当前节点]：")
+		fmt.Printf("%+v\n", node)
+		fmt.Print("[前一节点]：")
+		if node.PrevNode == nil {
+			fmt.Println("nil")
+		} else {
+			fmt.Printf("%+v\n", node.PrevNode)
 		}
-		fmt.Println("[房间ID]：", rId)
-		fmt.Println("[房间人数]：", roomInfo.Length)
-		fmt.Println("[房间最后一次修改时间]：", roomInfo.LastChangeTime.Format("2006-01-02 15:04:05"))
-		fmt.Print("[当前列表第一节点地址为]：")
-		fmt.Println("[房间连接列表]：")
-		for k, v := range roomInfo.Rows {
-			fmt.Println("	[列号]：", k)
-			fmt.Print("[列表第一节点为]：")
-			fmt.Printf("%p\n", v.FrontNode)
-			fmt.Print("[列表末尾节点为]：")
-			fmt.Printf("%p\n", v.BackNode)
-			for e := v.FrontNode; e != nil; e = e.NextNode {
-				fmt.Print("		[节点内容]：")
-				fmt.Printf("%+v", e)
-				fmt.Print("[当前节点地址]：")
-				fmt.Printf("%p\n", e)
+		leng := 0
+		totalLeng := 0
+		for e := roomInfo.Rows[0].FrontNode; e != nil; e = e.NextNode {
+			totalLeng++
+			if e.IsAlive {
+				leng++
 			}
 		}
-		fmt.Println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<房间信息<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+		fmt.Println("【总长度】：", totalLeng, "【存活长度】：", leng)
+		fmt.Println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<房间添加节点结束<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 	}
 }

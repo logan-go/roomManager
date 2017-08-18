@@ -79,9 +79,6 @@ func (this *ReciveNode) SendMessage(message interface{}) {
 func (this *ReciveNode) Close() {
 	this.IsAlive = false
 	this.Conn.Close()
-	if DETAILED_LOG_FLAG {
-		ClosedCounter++
-	}
 }
 
 func SendMessageFromOuter(roomID string, message interface{}) {
