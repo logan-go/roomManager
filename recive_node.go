@@ -12,14 +12,13 @@ import (
 
 //用于接收用户消息的节点
 type ReciveNode struct {
-	RoomID      string
-	ClientID    int64
-	NextNode    *ReciveNode
-	PrevNode    *ReciveNode
-	CurrentList *RowList
-	Conn        *websocket.Conn
-	UpdateTime  time.Time
-	IsAlive     bool
+	RoomID     string
+	RowIndex   int //列索引
+	NodeIndex  int //节点索引
+	ClientID   int64
+	Conn       *websocket.Conn
+	UpdateTime time.Time
+	IsAlive    bool
 }
 
 func (this *ReciveNode) Add() {

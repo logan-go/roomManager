@@ -6,38 +6,20 @@ import (
 
 //清理当前房间里面不属于自己房间的节点
 func cleanRoom(roomInfo *RoomInfo) {
-	return //临时停止清扫房间
-	count := uint64(0)
-	deadCount := uint64(0)
-	for k, v := range roomInfo.Rows {
-		rowCount := uint64(0)
-		for n := v.FrontNode; n != nil; n = n.NextNode {
-			count++
-			if n.RoomID != roomInfo.RoomID || n.IsAlive == false {
-				deadCount++
-				//如果是第一个节点
-				if n == v.FrontNode {
-					v.FrontNode = n.NextNode
-					if v.FrontNode != nil { //如果只有一个节点的话
-						v.FrontNode.PrevNode = nil
-					}
-				} else if n.NextNode == nil { //如果是最后一个节点
-					if n.PrevNode != nil {
-						n.PrevNode.NextNode = nil
-					}
-				} else {
-					n.PrevNode.NextNode = n.NextNode
-					n.NextNode.PrevNode = n.PrevNode
-				}
-				roomInfo.Length--
-				n.CurrentList.Length--
-			} else {
-				rowCount++
-			}
+	roomInfo.Lock.Lock()
+	defer roomInfo.Lock.Unlock()
+
+	//创建一个空的列组，准备装整理过的节点
+	rows := &RowList{}
+	nodeList := make([]*ReciveNode, 0, ROW_LENGTH)
+	rows.Nodes = append(rows.Nodes, nodeList)
+
+	//循环列表内的节点
+	for _, row := range roomInfo.Rows {
+		for _, node := range row.Nodes {
+
 		}
-		roomInfo.Rows[k].Length = rowCount
 	}
-	roomInfo.Length = count - deadCount
 	roomInfo.LastChangeTime = time.Now()
 }
 
