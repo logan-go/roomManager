@@ -14,7 +14,9 @@ func changeRoom(roomInfo *RoomInfo, node *ReciveNode) {
 		row.Nodes = make([]*ReciveNode, 0, ROW_LENGTH)
 		roomInfo.Rows = append(roomInfo.Rows, row)
 	}
+	//设定是否添加完成标记
 	addSuccess := false
+	//寻找一个未满的列，把新的节点加进去
 	for k, v := range roomInfo.Rows {
 		if len(v.Nodes) < ROW_LENGTH {
 			node.RowIndex = k
@@ -24,6 +26,7 @@ func changeRoom(roomInfo *RoomInfo, node *ReciveNode) {
 			break
 		}
 	}
+	//如果前面所有的列都是满的，则创建一个新列，把节点添加进去
 	if !addSuccess {
 		row := &RowList{}
 		row.Nodes = make([]*ReciveNode, 0, ROW_LENGTH)

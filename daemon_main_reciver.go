@@ -10,7 +10,8 @@ func daemonReciver(c chan nodeMessage, roomInfo *RoomInfo) {
 		switch s.messageType {
 		case NODE_MESSAGE_TYPE_IN_HALL:
 			changeRoom(roomInfo, s.body.(*ReciveNode))
-		//case NODE_MESSAGE_TYPE_CLOSE_ROOM:
+		case NODE_MESSAGE_TYPE_CLOSE_ROOM:
+			closeRoom(roomInfo)
 		case NODE_MESSAGE_TYPE_CHANGE_ROOM:
 			changeRoom(roomInfo, s.body.(*ReciveNode))
 		case NODE_MESSAGE_TYPE_SEND_MESSAGE:
