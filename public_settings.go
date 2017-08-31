@@ -15,7 +15,7 @@ var (
 	REQUEST_URI       = "websocket"                                      //请求URI
 	CLEAN_TIMER       = 30 * time.Second                                 //房间清理定时器
 	HALL_TIMEOUT      = 30 * time.Second                                 //大厅房间的连接超过多久之后会被断开
-	ROW_LENGTH        = 1024                                             //单列节点最大长度
+	ROW_LENGTH        = 16                                             //单列节点最大长度
 )
 
 //设定监听端口号

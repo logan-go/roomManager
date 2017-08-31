@@ -27,6 +27,9 @@ func cleanRoom(roomInfo *RoomInfo) {
 	rowList := &RowList{}
 	rowList.Nodes = make([]*ReciveNode, 0, ROW_LENGTH)
 
+	//本次调整时间
+	currentUpdateTime := time.Now()
+
 	//列加入列组
 	colList = append(colList, rowList)
 
@@ -36,27 +39,23 @@ func cleanRoom(roomInfo *RoomInfo) {
 	//循环列表内的节点
 	for _, row := range roomInfo.Rows {
 		for _, node := range row.Nodes {
-			if node.RoomID != roomInfo.RoomID || node.IsAlive == false {
+			if node.RoomID != roomInfo.RoomID || node.IsAlive == false || node.UpdateTime == currentUpdateTime {
 				continue
 			}
-
+			node.UpdateTime = currentUpdateTime
 			//添加节点到正常节点
-			tmp_index := cap(colList[colIndex].Nodes)
-			if tmp_index >= ROW_LENGTH {
-				tmp_index = 0
+			tmpIndex := len(rowList.Nodes)
+			if tmpIndex >= ROW_LENGTH {
+				tmpIndex = 0
 				//创建行
 				rowList = &RowList{}
 				rowList.Nodes = make([]*ReciveNode, 0, ROW_LENGTH)
+				colIndex++
 
 				//列加入列组
 				colList = append(colList, rowList)
-				node.RowIndex = colIndex
-				node.NodeIndex = tmp_index
 				colList[colIndex].Nodes = append(colList[colIndex].Nodes, node)
-				colIndex++
 			} else {
-				node.RowIndex = colIndex
-				node.NodeIndex = tmp_index
 				colList[colIndex].Nodes = append(colList[colIndex].Nodes, node)
 			}
 		}
@@ -70,6 +69,11 @@ func cleanRoom(roomInfo *RoomInfo) {
 		for _, node := range row.Nodes {
 			fmt.Printf("%+v\n", node)
 		}
+	}
+	fmt.Println("===整理结果===")
+	fmt.Println("行数：", len(roomInfo.Rows))
+	for _, row := range roomInfo.Rows {
+		fmt.Println("总列：", len(row.Nodes), "|", cap(row.Nodes))
 	}
 	fmt.Println("========================整理完毕", time.Now().Format("2006-01-02 15:04:05"), "========================")
 }
