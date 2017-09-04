@@ -7,19 +7,13 @@ import (
 
 //清理当前房间里面不属于自己房间的节点
 func cleanRoom(roomInfo *RoomInfo) {
-	fmt.Printf("%+v\n", roomInfo)
 	roomInfo.Lock.Lock()
 	defer roomInfo.Lock.Unlock()
 
 	//打印整理前的房间信息
 	fmt.Println("========================整理前", time.Now().Format("2006-01-02 15:04:05"), "========================")
 
-	for _, row := range roomInfo.Rows {
-		for _, node := range row.Nodes {
-			fmt.Printf("%+v\n", node)
-		}
-	}
-	fmt.Println("======整理后======")
+	startTime := time.Now()
 	//创建一个空的列组，准备装整理过的节点
 	colList := make([]*RowList, 0, 5)
 
@@ -63,18 +57,13 @@ func cleanRoom(roomInfo *RoomInfo) {
 	//整理完毕之后，把新的整理结果赋予房间
 	roomInfo.Rows = colList
 	roomInfo.LastChangeTime = time.Now()
+	endTime := time.Now()
 
-	//打印整理后的房间信息
-	for _, row := range roomInfo.Rows {
-		for _, node := range row.Nodes {
-			fmt.Printf("%+v\n", node)
-		}
-	}
-	fmt.Println("===整理结果===")
 	fmt.Println("行数：", len(roomInfo.Rows))
 	for _, row := range roomInfo.Rows {
 		fmt.Println("总列：", len(row.Nodes), "|", cap(row.Nodes))
 	}
+	fmt.Println("耗时：", endTime.Sub(startTime))
 	fmt.Println("========================整理完毕", time.Now().Format("2006-01-02 15:04:05"), "========================")
 }
 
