@@ -12,11 +12,12 @@ import (
 
 //用于接收用户消息的节点
 type ReciveNode struct {
-	RoomID     string
-	ClientID   int64
-	Conn       *websocket.Conn
-	UpdateTime time.Time
-	IsAlive    bool
+	RoomID       string
+	ClientID     int64
+	Conn         *websocket.Conn
+	UpdateTime   time.Time
+	LastSendTime time.Time //最后一次发送消息时间
+	IsAlive      bool
 }
 
 func (this *ReciveNode) Add() {
@@ -60,7 +61,10 @@ func (this *ReciveNode) SendMessageToRoom(message interface{}) {
 }
 
 //给当前节点连接发送消息
-func (this *ReciveNode) SendMessage(message interface{}) {
+func (this *ReciveNode) SendMessage(message interface{}, sendTime time.Time) {
+	if this.LastSendTime == sendTime {
+		return
+	}
 	w, err := this.Conn.NextWriter(websocket.TextMessage)
 	if err != nil {
 		return
@@ -71,6 +75,7 @@ func (this *ReciveNode) SendMessage(message interface{}) {
 		return
 	}
 	w.Write(msg)
+	this.LastSendTime = sendTime
 }
 
 func (this *ReciveNode) Close() {
