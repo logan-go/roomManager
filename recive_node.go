@@ -12,12 +12,14 @@ import (
 
 //用于接收用户消息的节点
 type ReciveNode struct {
-	RoomID       string
-	ClientID     int64
-	Conn         *websocket.Conn
-	UpdateTime   time.Time
-	LastSendTime time.Time //最后一次发送消息时间
-	IsAlive      bool
+	RoomID       string          //房间ID
+	ClientID     int64           //客户端ID
+	UserID       string          //用户标识
+	DisableRead  bool            //是否停止接收该链接内容
+	Conn         *websocket.Conn //websocket链接
+	UpdateTime   time.Time       //最后一次整理时间
+	LastSendTime time.Time       //最后一次发送消息时间
+	IsAlive      bool            //是否存活
 }
 
 func (this *ReciveNode) Add() {
