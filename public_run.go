@@ -3,6 +3,7 @@ package roomManager
 import (
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 
 	"github.com/gorilla/websocket"
@@ -31,6 +32,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	node := &ReciveNode{}
+	node.IP = net.ParseIP(r.RemoteAddr)
 	node.IsAlive = true
 	node.Conn = conn
 	node.Add()
@@ -47,6 +49,17 @@ func processMessage(node *ReciveNode) {
 		}
 
 		if err != nil {
+			continue
+		}
+
+		//如果已经被关闭，则不允许发送消息
+		if node.DisableRead {
+			continue
+		}
+
+		//如果用户ID在黑名单内，则关闭发消息功能
+		if CheckUserID(node.UserID) {
+			node.DisableRead = true
 			continue
 		}
 
