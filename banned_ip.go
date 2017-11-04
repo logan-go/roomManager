@@ -1,14 +1,19 @@
 package roomManager
 
-import "net"
+import (
+	"net"
+	"sync"
+)
 
 var ipList []net.IP
-
-func init() {
-	ipList = make([]net.IP, 1024)
-}
+var upListLock sync.RWMutex
 
 func setIPList(list []net.IP) {
+	if len(list) == 0 {
+		return
+	}
+	upListLock.Lock()
+	defer upListLock.Unlock()
 	ipList = list
 }
 
@@ -16,8 +21,10 @@ func CheckIP(ip net.IP) bool {
 	if len(ipList) == 0 {
 		return false
 	}
+	upListLock.RLock()
+	defer upListLock.RUnlock()
 	for _, v := range ipList {
-		if v.String() == ip.String {
+		if v.String() == ip.String() {
 			return true
 		}
 	}

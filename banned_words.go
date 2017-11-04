@@ -17,7 +17,7 @@ func CheckMessage(msg string) bool {
 		return false
 	}
 	for _, v := range wordList {
-		if strings.Index(msg, wordList) >= 0 {
+		if strings.Index(msg, v) >= 0 {
 			return true
 		}
 	}

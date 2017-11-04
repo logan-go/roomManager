@@ -32,10 +32,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	node := &ReciveNode{}
+
+	//获取目标IP地址
 	node.IP = net.ParseIP(r.RemoteAddr)
+
 	node.IsAlive = true
 	node.Conn = conn
 	node.Add()
+	fmt.Printf("%+v\n", node)
 	processMessage(node)
 }
 
