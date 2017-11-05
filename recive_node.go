@@ -4,7 +4,6 @@
 package roomManager
 
 import (
-	"fmt"
 	"net"
 	"time"
 
@@ -42,9 +41,6 @@ func (this *ReciveNode) ChangeRoom(roomId string) {
 	if this.RoomID == roomId {
 		return
 	}
-	if CheckIP(this.IP) {
-		this.DisableRead = true
-	}
 	this.RoomID = roomId
 	nm := nodeMessage{
 		messageType: NODE_MESSAGE_TYPE_CHANGE_ROOM,
@@ -59,19 +55,15 @@ func (this *ReciveNode) SendMessageToRoom(message interface{}) {
 		messageType: NODE_MESSAGE_TYPE_SEND_MESSAGE,
 		body:        message,
 	}
-	fmt.Printf("%+v\n", nm)
 	if IS_CHECK_USER_WHEN_SEND_MSG {
 		if this.UserID == "" {
-			fmt.Println("userid is empty")
 			return
 		}
 	}
 	if this.DisableRead {
-		fmt.Println("disable read")
 		return
 	}
 	if this.RoomID == "" {
-		fmt.Println("room id is null")
 		return
 	}
 	sendMessageToChannel(this.RoomID, nm)

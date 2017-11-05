@@ -1,11 +1,13 @@
 package roomManager
 
-import "strings"
+import (
+	"strings"
+)
 
 var wordList []string
 
 func init() {
-	wordList = make([]string, 1024)
+	wordList = make([]string, 0, 1024)
 }
 
 func SetWordList(list []string) {

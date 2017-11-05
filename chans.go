@@ -1,10 +1,8 @@
 package roomManager
 
 import (
-	"fmt"
+	"encoding/json"
 	"sync"
-
-	json "github.com/json-iterator/go"
 )
 
 var messageChannel map[string]chan nodeMessage
@@ -15,11 +13,15 @@ func init() {
 }
 
 func sendMessageToChannel(roomId string, nm nodeMessage) error {
-	rs, _ := json.Marshal(nm.body)
-	if CheckMessage(string(rs)) {
-		return nil
+	if nm.messageType == NODE_MESSAGE_TYPE_SEND_MESSAGE {
+		n, err := json.Marshal(nm.body)
+		if err != nil {
+			return nil
+		}
+		if CheckMessage(string(n)) {
+			return nil
+		}
 	}
-	fmt.Println("ROOMID:", roomId)
 	messageChannelLock.RLock()
 	//如果房间不存在，创建一个房间
 	if c, ok := messageChannel[roomId]; ok {

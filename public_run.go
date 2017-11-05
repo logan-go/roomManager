@@ -39,7 +39,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	node.IsAlive = true
 	node.Conn = conn
 	node.Add()
-	fmt.Printf("%+v\n", node)
 	processMessage(node)
 }
 
