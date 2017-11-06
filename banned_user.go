@@ -8,13 +8,13 @@ import (
 var userList []string
 var userListLock sync.RWMutex
 
-func setUserList(list []string) {
+func SetUserList(list []string) {
 	if len(list) == 0 {
 		return
 	}
 	userListLock.Lock()
 	defer userListLock.Unlock()
-	userList = make([]string, 1024)
+	userList = make([]string, 0, 1024)
 	for _, v := range list {
 		userList = append(userList, strings.ToUpper(v))
 	}
@@ -22,6 +22,9 @@ func setUserList(list []string) {
 
 func CheckUserID(userId string) bool {
 	if len(userList) == 0 {
+		return false
+	}
+	if userId == "" {
 		return false
 	}
 	userListLock.RLock()

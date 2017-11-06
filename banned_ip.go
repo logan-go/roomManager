@@ -8,7 +8,7 @@ import (
 var ipList []net.IP
 var upListLock sync.RWMutex
 
-func setIPList(list []net.IP) {
+func SetIPList(list []net.IP) {
 	if len(list) == 0 {
 		return
 	}
