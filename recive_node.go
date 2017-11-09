@@ -90,6 +90,11 @@ func (this *ReciveNode) SendMessage(message interface{}, sendTime time.Time) {
 	this.LastSendTime = sendTime
 }
 
+//更改用户ID
+func (this *ReciveNode) ChangeUserID(userId string) {
+	this.UserID = userId
+}
+
 func (this *ReciveNode) Close() {
 	this.IsAlive = false
 	this.Conn.Close()

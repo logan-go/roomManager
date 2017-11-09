@@ -1,8 +1,9 @@
 package roomManager
 
 type nodeMessage struct {
-	messageType int         //消息类型，类型为NODE_MESSAGE_TYPE组
-	body        interface{} //消息体
+	messageType int         `json:"type"` //消息类型，类型为NODE_MESSAGE_TYPE组
+	rommId      string      `json:"room_id"`
+	body        interface{} `json:"body"` //消息体
 }
 
 const (
