@@ -7,7 +7,6 @@ import (
 	"net/url"
 
 	"github.com/gorilla/websocket"
-	json "github.com/json-iterator/go"
 )
 
 var (
@@ -15,6 +14,8 @@ var (
 	broadcastingPort = 6666
 	broadcastingURI  = "broadcasting"
 	useBroadcasting  = false
+
+	broadcastingConnection websocket.Conn
 )
 
 func ConnBroadcasting() {
@@ -29,16 +30,16 @@ func ConnBroadcasting() {
 	u.Scheme = "ws"
 
 	h := http.Header{}
-	c, _, err := websocket.NewClient(conn, &u, h, 1024, 1024)
+	broadcastingConnection, _, err := websocket.NewClient(conn, &u, h, 1024, 1024)
 	if err != nil {
-		fmt.Println("[websocket连接失败]：", id, err)
+		fmt.Println("[websocket连接失败]：", err)
 		return
 	}
 
 	//处理读到消息之后
 	go func() {
 		for {
-			_, reader, err := c.NextReader()
+			_, reader, err := broadcastingConnection.NextReader()
 			if err != nil {
 				continue
 			}
@@ -47,15 +48,7 @@ func ConnBroadcasting() {
 			if err != nil {
 				continue
 			}
-			m := &nodeMessage{}
-			err = json.Unmarshal(msg, m)
-			if err != nil {
-				continue
-			}
-			switch m.messageType {
-			case NODE_MESSAGE_TYPE_SEND_MESSAGE:
-				SendMessageFromOuter()
-			}
+			proMessageFromBroadcast(msg)
 		}
 	}()
 }

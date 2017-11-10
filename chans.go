@@ -7,11 +7,14 @@ import (
 
 var messageChannel map[string]chan nodeMessage
 var messageChannelLock sync.RWMutex
+var messageRoomCreated map[string]bool
 
 func init() {
 	messageChannel = make(map[string]chan nodeMessage)
+	messageRoomCreated = make(map[string]bool)
 }
 
+//给channel发送消息
 func sendMessageToChannel(roomId string, nm nodeMessage) error {
 	if nm.messageType == NODE_MESSAGE_TYPE_SEND_MESSAGE {
 		n, err := json.Marshal(nm.body)
@@ -49,4 +52,9 @@ func sendMessageToChannel(roomId string, nm nodeMessage) error {
 		}
 	}
 	return nil
+}
+
+//给广播站发送消息
+func sendMessageToBroadcast(roomId string, nm nodeMessage) error {
+
 }
