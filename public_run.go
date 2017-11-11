@@ -21,6 +21,9 @@ func Run() error {
 		return nil
 	}
 	go ProcessSignals()
+	if useBroadcasting {
+		go ConnBroadcasting()
+	}
 	http.HandleFunc("/"+REQUEST_URI, handler)
 	return http.ListenAndServe(LISTEN_PORT, nil)
 }

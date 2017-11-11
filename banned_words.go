@@ -1,10 +1,12 @@
 package roomManager
 
 import (
+	"errors"
 	"strings"
 )
 
 var wordList []string
+var WordsBannedError = errors.New("words in message is banned")
 
 func init() {
 	wordList = make([]string, 0, 1024)

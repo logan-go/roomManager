@@ -66,7 +66,11 @@ func (this *ReciveNode) SendMessageToRoom(message interface{}) {
 	if this.RoomID == "" {
 		return
 	}
-	sendMessageToChannel(this.RoomID, nm)
+	if useBroadcasting {
+		sendMessageToBroadcast(this.RoomID, nm)
+	} else {
+		sendMessageToChannel(this.RoomID, nm)
+	}
 	if DETAILED_LOG_FLAG {
 		SendCounter++
 	}

@@ -15,7 +15,7 @@ var (
 	REQUEST_URI                 = "websocket"                                      //请求URI
 	CLEAN_TIMER                 = 5 * time.Minute                                  //房间清理定时器
 	HALL_TIMEOUT                = 30 * time.Second                                 //大厅房间的连接超过多久之后会被断开
-	ROW_LENGTH                  = 16                                               //单列节点最大长度
+	ROW_LENGTH                  = 1024                                             //单列节点最大长度
 	IS_CHECK_USER_WHEN_SEND_MSG = true                                             //发送弹幕时，是否检查用户信息（如果用户ID不存在，则不会发送消息，也不会接收到消息）
 )
 
