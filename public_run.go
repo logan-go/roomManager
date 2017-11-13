@@ -3,8 +3,8 @@ package roomManager
 import (
 	"fmt"
 	"io"
-	"net"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/websocket"
 )
@@ -37,7 +37,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	node := &ReciveNode{}
 
 	//获取目标IP地址
-	node.IP = net.ParseIP(r.RemoteAddr)
+	addrSlice := strings.Split(r.RemoteAddr, ":")
+	node.IP = addrSlice[0]
 
 	node.IsAlive = true
 	node.Conn = conn

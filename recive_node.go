@@ -4,7 +4,6 @@
 package roomManager
 
 import (
-	"net"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -15,7 +14,7 @@ import (
 type ReciveNode struct {
 	RoomID       string          //房间ID
 	ClientID     int64           //客户端ID
-	IP           net.IP          //当前IP地址
+	IP           string          //当前IP地址
 	UserID       string          //用户标识
 	DisableRead  bool            //是否停止接收该链接内容
 	Conn         *websocket.Conn //websocket链接
