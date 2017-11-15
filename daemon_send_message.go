@@ -20,7 +20,6 @@ func sendMessage(roomInfo *RoomInfo, message interface{}) {
 		}
 	}
 
-	if DETAILED_LOG_FLAG {
-		fmt.Println("[发送消息] - 房间", roomInfo.RoomID, "：遍历节点", counter, "个，发送节点", realCounter, "个")
-	}
+	endTime := time.Now()
+	fmt.Println("[发送消息] - 房间", roomInfo.RoomID, "：遍历节点", counter, "个，发送节点", realCounter, "个,耗时：", endTime.Sub(currentTime).String())
 }
